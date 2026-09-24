@@ -1,0 +1,77 @@
+{
+  "region": "nwa",
+  "name": "Northwest Arkansas",
+  "state": "AR",
+  "timezone": "America/Chicago",
+  "maintainer": "peiralabs",
+  "verified": "2026-09-24",
+  "towns": [
+    { "name": "Bentonville",  "zips": ["72712", "72713"] },
+    { "name": "Rogers",       "zips": ["72756", "72758", "72757"] },
+    { "name": "Springdale",   "zips": ["72762", "72764", "72765"] },
+    { "name": "Fayetteville", "zips": ["72701", "72703", "72704"] },
+    { "name": "Pea Ridge",    "zips": ["72751"] }
+  ],
+  "sources": [
+    {
+      "id": "bentonville-library",
+      "org": "Bentonville Public Library",
+      "town": "Bentonville",
+      "phone": "479-271-3192",
+      "site": "https://www.bentonvillelibrary.org/",
+      "type": "communico",
+      "host": "attend.bentonvillelibrary.org",
+      "note": "Communico Attend. The site's own front end calls /eeventcaldata; it takes a `days` window and returns agesArray, so ages come from the field rather than from keywords."
+    },
+    {
+      "id": "fayetteville-library",
+      "org": "Fayetteville Public Library",
+      "town": "Fayetteville",
+      "phone": "479-856-7000",
+      "site": "https://faylib.org/",
+      "type": "communico",
+      "host": "faylib.libnet.info"
+    },
+    {
+      "id": "rogers-library",
+      "org": "Rogers Public Library",
+      "town": "Rogers",
+      "phone": "479-621-1152",
+      "site": "https://rogerspubliclibrary.org/",
+      "type": "ics",
+      "url": "https://rogerspubliclibrary.libcal.com/ical_subscribe.php?cid=17940",
+      "note": "Springshare LibCal. Use the ICS subscribe feed, not api_events.php, which caps at roughly 200 records. Timestamps are UTC."
+    },
+    {
+      "id": "springdale-library",
+      "org": "Springdale Public Library",
+      "town": "Springdale",
+      "phone": "479-750-8180",
+      "site": "https://www.springdalelibrary.org/",
+      "type": "ics",
+      "url": "https://calendar.springdalelibrary.org/ical_subscribe.php?cid=12600",
+      "note": "LibCal. Publishes a shorter horizon than the others, roughly three months."
+    },
+    {
+      "id": "pearidge-library",
+      "org": "Pea Ridge Community Library",
+      "town": "Pea Ridge",
+      "phone": "479-451-8442",
+      "site": "https://pearidgecommunitylibrary.com/",
+      "type": "ics",
+      "url": "https://calendar.google.com/calendar/ical/pearidgecommunitylibrary%40gmail.com/public/basic.ics",
+      "all_ages_calendar": true,
+      "note": "Public Google Calendar. A small library whose youth programmes are rarely titled by age, so all_ages_calendar relaxes the age-keyword requirement and relies on the explicit bounds instead."
+    },
+    {
+      "id": "crystal-bridges",
+      "org": "Crystal Bridges Museum of American Art",
+      "town": "Bentonville",
+      "phone": "479-418-5700",
+      "site": "https://crystalbridges.org/",
+      "type": "tessitura",
+      "url": "https://crystalbridges.org/api/tessitura/performances/search",
+      "note": "Tessitura behind the museum's own proxy. Needs a POST carrying startDateTime and endDateTime; titles arrive inline on ProductionSeason.Description."
+    }
+  ]
+}

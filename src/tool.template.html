@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Youth Almanac — things for kids and teens to do</title>
+<meta name="description" content="Free clubs, classes and events for ages 6-18, pulled straight from public library and museum calendars. Pick an age and a town.">
+<meta name="theme-color" content="#1F5B4E">
+<style>
+:root{
+  --bg:#F7F4EC; --card:#FFFFFF; --ink:#1C2522; --muted:#5F6F68;
+  --accent:#1F5B4E; --accent-ink:#FFFFFF; --line:#DCD5C6; --soft:#EFEADF;
+  --warn:#8A5A1B; --focus:#2E7D6B;
+  --r:14px;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#111816; --card:#1A2320; --ink:#E8E4D9; --muted:#9BAAA2;
+    --accent:#6FBCA6; --accent-ink:#0B120F; --line:#2C3833; --soft:#202B27;
+    --warn:#D6A45F; --focus:#6FBCA6;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px 64px}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:6px}
+.skip{position:absolute;left:-9999px}
+.skip:focus{left:8px;top:8px;background:var(--card);padding:10px 14px;z-index:20;border-radius:8px}
+
+header.top{padding:30px 0 6px}
+h1{font-size:1.75rem;line-height:1.15;margin:0 0 6px;letter-spacing:-.01em}
+.sub{color:var(--muted);margin:0;font-size:1rem}
+.meta{color:var(--muted);font-size:.82rem;margin:10px 0 0}
+
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin:18px 0}
+.row{display:flex;flex-wrap:wrap;gap:14px}
+.f{flex:1 1 190px;min-width:0}
+label.lbl{display:block;font-size:.76rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 5px;font-weight:600}
+select,input[type=search],input[type=number]{
+  width:100%;font:inherit;padding:11px 12px;border-radius:10px;
+  border:1px solid var(--line);background:var(--bg);color:var(--ink);-webkit-appearance:none;appearance:none}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.agewrap{display:flex;align-items:center;gap:12px}
+.agebig{font-size:1.5rem;font-weight:700;min-width:2.4ch;text-align:center;font-variant-numeric:tabular-nums}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.chip{cursor:pointer;border:1px solid var(--line);background:var(--bg);color:var(--ink);
+  border-radius:999px;padding:7px 13px;font:600 .86rem/1.2 inherit}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.chip .n{opacity:.7;font-weight:400;margin-left:5px;font-variant-numeric:tabular-nums}
+
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin:16px 0 6px}
+.count{font-weight:600}
+.count .q{color:var(--muted);font-weight:400}
+.btn{cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--ink);
+  border-radius:999px;padding:8px 14px;font:600 .86rem/1.2 inherit}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn[disabled]{opacity:.45;cursor:default}
+
+.day{margin:22px 0 8px;font-size:.95rem;font-weight:700;position:sticky;top:0;
+  background:var(--bg);padding:8px 0 6px;z-index:2;border-bottom:1px solid var(--line)}
+.ev{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px;margin:10px 0}
+.ev h3{margin:0 0 4px;font-size:1.03rem;line-height:1.3}
+.evtop{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.time{font-variant-numeric:tabular-nums;font-weight:700;color:var(--accent);white-space:nowrap}
+.where{color:var(--muted);font-size:.9rem;margin:2px 0 0}
+.desc{margin:8px 0 0;font-size:.93rem;color:var(--ink)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.tag{font-size:.75rem;border:1px solid var(--line);border-radius:999px;padding:3px 9px;color:var(--muted)}
+.tag.age{border-color:var(--accent);color:var(--accent)}
+.tag.reg{border-color:var(--warn);color:var(--warn)}
+.acts{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.acts a,.acts button{font-size:.84rem;text-decoration:none;border:1px solid var(--line);
+  background:var(--bg);color:var(--ink);border-radius:999px;padding:6px 12px;cursor:pointer;font-family:inherit}
+.save[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+
+.empty{text-align:center;padding:40px 16px;color:var(--muted)}
+.empty h2{color:var(--ink);font-size:1.15rem;margin:0 0 8px}
+.note{background:var(--soft);border-left:3px solid var(--accent);padding:12px 14px;
+  border-radius:0 8px 8px 0;margin:16px 0;font-size:.92rem}
+footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media print{
+  .panel,.bar,.acts,footer .noprint{display:none}
+  body{background:#fff;color:#000}
+  .ev{break-inside:avoid;border-color:#999}
+  .day{position:static}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#results">Skip to results</a>
+<div class="wrap">
+
+<header class="top">
+  <h1>Youth Almanac</h1>
+  <p class="sub">Free clubs, classes and events for ages 6&ndash;18, taken straight from public library and museum calendars.</p>
+  <p class="meta" id="meta"></p>
+</header>
+
+<form class="panel" id="controls" role="search" aria-label="Filter activities">
+  <div class="row">
+    <div class="f">
+      <label class="lbl" for="age">Child&rsquo;s age</label>
+      <div class="agewrap">
+        <input type="range" id="age" min="6" max="18" step="1" value="12"
+               aria-describedby="agehint">
+        <span class="agebig" id="ageout" aria-hidden="true">12</span>
+      </div>
+      <span class="sr" id="agehint">Shows activities whose published age range includes this age.</span>
+    </div>
+    <div class="f">
+      <label class="lbl" for="town">Town</label>
+      <select id="town"><option value="">Anywhere</option></select>
+    </div>
+    <div class="f">
+      <label class="lbl" for="when">When</label>
+      <select id="when">
+        <option value="7">Next 7 days</option>
+        <option value="30" selected>Next 30 days</option>
+        <option value="90">Next 3 months</option>
+        <option value="0">Everything published</option>
+      </select>
+    </div>
+    <div class="f">
+      <label class="lbl" for="q">Search</label>
+      <input type="search" id="q" placeholder="lego, chess, art&hellip;" autocomplete="off" spellcheck="false">
+    </div>
+  </div>
+  <div class="chips" id="cats" role="group" aria-label="Activity type"></div>
+</form>
+
+<div class="bar">
+  <div class="count" id="count" role="status" aria-live="polite"></div>
+  <div>
+    <button type="button" class="btn" id="savedBtn" aria-pressed="false">Saved (0)</button>
+    <button type="button" class="btn" id="copyBtn">Copy list</button>
+    <button type="button" class="btn" id="resetBtn">Reset</button>
+  </div>
+</div>
+
+<main id="results" tabindex="-1"></main>
+
+<footer>
+  <p><strong>Always check before you go.</strong> Times and age rules come from
+  each organisation&rsquo;s own calendar and can change. Where a listing says
+  registration is required, sign up first &mdash; several of these fill.</p>
+  <p class="noprint">Everything here is free to attend unless the organisation says
+  otherwise. Data refreshes automatically; nothing you do on this page is
+  tracked, stored anywhere but your own browser, or sent to a server.</p>
+  <p class="noprint">Built by <a href="https://peira.dev/">peira.dev</a> &middot;
+  <a href="https://github.com/peiralabs/youth-almanac">source and how to add your town</a></p>
+</footer>
+
+</div>
+
+<script id="almanac-data" type="application/json">__DATA__</script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+
+  var DATA = JSON.parse($('almanac-data').textContent);
+  var EV = DATA.events || [];
+  var LS = 'youth-almanac';
+
+  var CATS = {
+    stem: 'Science & tech', art: 'Art & making', books: 'Books & writing',
+    music: 'Music & stage', games: 'Games', outdoors: 'Outdoors',
+    service: 'Volunteering', life: 'Life skills', club: 'Clubs',
+    play: 'Play & parties', other: 'Everything else'
+  };
+
+  // ---- preferences: a convenience only, so every access is guarded -------
+  function loadPrefs() {
+    try { return JSON.parse(localStorage.getItem(LS)) || {}; }
+    catch (e) { return {}; }
+  }
+  function savePrefs(p) {
+    try { localStorage.setItem(LS, JSON.stringify(p)); } catch (e) {}
+  }
+  var prefs = loadPrefs();
+  var saved = Array.isArray(prefs.saved) ? prefs.saved : [];
+  var activeCats = [];
+  var showSavedOnly = false;
+
+  // ---- helpers ----------------------------------------------------------
+  function key(e) { return e.src + '|' + e.d + '|' + e.s + '|' + e.t; }
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function parseDay(iso) {
+    var p = iso.split('-');
+    return new Date(+p[0], +p[1] - 1, +p[2]);
+  }
+
+  function prettyTime(hhmm) {
+    if (!hhmm) return 'All day';
+    var p = hhmm.split(':'), h = +p[0], m = +p[1];
+    var ap = h < 12 ? 'AM' : 'PM', hh = h % 12 || 12;
+    return m ? hh + ':' + p[1] + ' ' + ap : hh + ' ' + ap;
+  }
+
+  function ageLabel(e) {
+    if (e.lo == null && e.hi == null) return 'All ages';
+    if (e.lo != null && e.hi != null) return 'Ages ' + e.lo + '–' + e.hi;
+    if (e.lo != null) return 'Ages ' + e.lo + '+';
+    return 'Up to ' + e.hi;
+  }
+
+  function fitsAge(e, age) {
+    if (e.lo != null && age < e.lo) return false;
+    if (e.hi != null && age > e.hi) return false;
+    return true;
+  }
+
+  var DAYNAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
+                  'Friday', 'Saturday'];
+  var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+                'August', 'September', 'October', 'November', 'December'];
+
+  function dayHeading(iso) {
+    var d = parseDay(iso), today = new Date();
+    today.setHours(0, 0, 0, 0);
+    var diff = Math.round((d - today) / 86400000);
+    var base = DAYNAMES[d.getDay()] + ', ' + MONTHS[d.getMonth()] + ' ' + d.getDate();
+    if (diff === 0) return 'Today — ' + base;
+    if (diff === 1) return 'Tomorrow — ' + base;
+    return base;
+  }
+
+  // ---- filtering --------------------------------------------------------
+  function current() {
+    var age = +$('age').value;
+    var town = $('town').value;
+    var days = +$('when').value;
+    var q = $('q').value.trim().toLowerCase();
+    var today = new Date(); today.setHours(0, 0, 0, 0);
+    var limit = days ? new Date(today.getTime() + days * 86400000) : null;
+
+    return EV.filter(function (e) {
+      if (!fitsAge(e, age)) return false;
+      if (town && e.town !== town) return false;
+      if (activeCats.length && activeCats.indexOf(e.c) === -1) return false;
+      var d = parseDay(e.d);
+      if (d < today) return false;
+      if (limit && d > limit) return false;
+      if (showSavedOnly && saved.indexOf(key(e)) === -1) return false;
+      if (q) {
+        var hay = (e.t + ' ' + e.org + ' ' + e.town + ' ' + e.v + ' ' + e.x).toLowerCase();
+        if (hay.indexOf(q) === -1) return false;
+      }
+      return true;
+    });
+  }
+
+  // ---- rendering --------------------------------------------------------
+  function render() {
+    var list = current();
+    var age = +$('age').value;
+
+    $('count').innerHTML = list.length
+      ? '<strong>' + list.length + '</strong> ' +
+        (list.length === 1 ? 'thing' : 'things') +
+        ' <span class="q">for a ' + age + '-year-old</span>'
+      : '<span class="q">Nothing matches yet</span>';
+
+    $('savedBtn').textContent = 'Saved (' + saved.length + ')';
+    $('savedBtn').setAttribute('aria-pressed', showSavedOnly ? 'true' : 'false');
+
+    if (!list.length) {
+      $('results').innerHTML =
+        '<div class="empty"><h2>No matches</h2>' +
+        '<p>Try a wider date range, clear the activity types, or choose ' +
+        '&ldquo;Anywhere&rdquo; for the town.</p></div>';
+      renderCats();
+      return;
+    }
+
+    var out = [], lastDay = '';
+    for (var i = 0; i < list.length; i++) {
+      var e = list[i];
+      if (e.d !== lastDay) {
+        out.push('<h2 class="day">' + esc(dayHeading(e.d)) + '</h2>');
+        lastDay = e.d;
+      }
+      var k = key(e), isSaved = saved.indexOf(k) !== -1;
+      var place = [e.v, e.org].filter(Boolean).join(' · ');
+      var maps = 'https://www.google.com/maps/search/?api=1&query=' +
+                 encodeURIComponent([e.v, e.org, e.town, 'AR'].filter(Boolean).join(', '));
+
+      out.push(
+        '<article class="ev">' +
+          '<div class="evtop"><span class="time">' + esc(prettyTime(e.s)) + '</span>' +
+            '<h3>' + esc(e.t) + '</h3></div>' +
+          '<p class="where">' + esc(place) + ' — ' + esc(e.town) + '</p>' +
+          (e.x ? '<p class="desc">' + esc(e.x) + '</p>' : '') +
+          '<div class="tags">' +
+            '<span class="tag age">' + esc(ageLabel(e)) + '</span>' +
+            '<span class="tag">' + esc(CATS[e.c] || e.c) + '</span>' +
+            (e.reg ? '<span class="tag reg">Registration required</span>' : '') +
+          '</div>' +
+          '<div class="acts">' +
+            '<button type="button" class="save" data-k="' + esc(k) + '" aria-pressed="' +
+              (isSaved ? 'true' : 'false') + '">' + (isSaved ? '✓ Saved' : 'Save') + '</button>' +
+            (e.url ? '<a href="' + esc(e.url) + '" rel="noopener">Organisation ↗</a>' : '') +
+            (e.ph ? '<a href="tel:' + esc(e.ph.replace(/[^0-9+]/g, '')) + '">' + esc(e.ph) + '</a>' : '') +
+            '<a href="' + esc(maps) + '" rel="noopener">Map ↗</a>' +
+          '</div>' +
+        '</article>');
+    }
+    $('results').innerHTML = out.join('');
+    renderCats();
+  }
+
+  function renderCats() {
+    // Counts reflect everything except the category filter itself, so a
+    // chip always shows what picking it would actually give you.
+    var age = +$('age').value, town = $('town').value, days = +$('when').value;
+    var q = $('q').value.trim().toLowerCase();
+    var today = new Date(); today.setHours(0, 0, 0, 0);
+    var limit = days ? new Date(today.getTime() + days * 86400000) : null;
+    var tally = {};
+    EV.forEach(function (e) {
+      if (!fitsAge(e, age)) return;
+      if (town && e.town !== town) return;
+      var d = parseDay(e.d);
+      if (d < today || (limit && d > limit)) return;
+      if (showSavedOnly && saved.indexOf(key(e)) === -1) return;
+      if (q) {
+        var hay = (e.t + ' ' + e.org + ' ' + e.town + ' ' + e.v + ' ' + e.x).toLowerCase();
+        if (hay.indexOf(q) === -1) return;
+      }
+      tally[e.c] = (tally[e.c] || 0) + 1;
+    });
+    var html = Object.keys(CATS).filter(function (c) { return tally[c]; })
+      .sort(function (a, b) { return tally[b] - tally[a]; })
+      .map(function (c) {
+        var on = activeCats.indexOf(c) !== -1;
+        return '<button type="button" class="chip" data-c="' + c + '" aria-pressed="' +
+               (on ? 'true' : 'false') + '">' + esc(CATS[c]) +
+               '<span class="n">' + tally[c] + '</span></button>';
+      }).join('');
+    $('cats').innerHTML = html;
+  }
+
+  function copyList() {
+    var list = current();
+    if (!list.length) return;
+    var lines = list.slice(0, 60).map(function (e) {
+      return '• ' + dayHeading(e.d) + ', ' + prettyTime(e.s) + ' — ' +
+             e.t + ' (' + e.org + ', ' + e.town + ')';
+    });
+    var text = 'Youth Almanac — ' + list.length + ' things\n\n' +
+               lines.join('\n') +
+               (list.length > 60 ? '\n…and ' + (list.length - 60) + ' more' : '');
+    var done = function () {
+      $('copyBtn').textContent = 'Copied';
+      setTimeout(function () { $('copyBtn').textContent = 'Copy list'; }, 1600);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function () { window.prompt('Copy:', text); });
+    } else {
+      window.prompt('Copy:', text);
+    }
+  }
+
+  // ---- wiring -----------------------------------------------------------
+  function persist() {
+    savePrefs({ age: $('age').value, town: $('town').value,
+                when: $('when').value, saved: saved });
+  }
+
+  function init() {
+    $('meta').textContent = DATA.name + ' · ' + EV.length +
+      ' listings · updated ' + DATA.generated;
+
+    var towns = {};
+    EV.forEach(function (e) { towns[e.town] = (towns[e.town] || 0) + 1; });
+    Object.keys(towns).sort().forEach(function (t) {
+      var o = document.createElement('option');
+      o.value = t; o.textContent = t + ' (' + towns[t] + ')';
+      $('town').appendChild(o);
+    });
+
+    if (prefs.age) $('age').value = prefs.age;
+    if (prefs.town) $('town').value = prefs.town;
+    if (prefs.when) $('when').value = prefs.when;
+    $('ageout').textContent = $('age').value;
+
+    $('age').addEventListener('input', function () {
+      $('ageout').textContent = this.value; render(); persist();
+    });
+    ['town', 'when'].forEach(function (id) {
+      $(id).addEventListener('change', function () { render(); persist(); });
+    });
+    $('q').addEventListener('input', render);
+    $('controls').addEventListener('submit', function (ev) { ev.preventDefault(); });
+
+    $('cats').addEventListener('click', function (ev) {
+      var b = ev.target.closest('.chip');
+      if (!b) return;
+      var c = b.getAttribute('data-c'), i = activeCats.indexOf(c);
+      if (i === -1) { activeCats.push(c); } else { activeCats.splice(i, 1); }
+      render();
+    });
+
+    $('results').addEventListener('click', function (ev) {
+      var b = ev.target.closest('.save');
+      if (!b) return;
+      var k = b.getAttribute('data-k'), i = saved.indexOf(k);
+      var nowSaved = i === -1;
+      if (nowSaved) { saved.push(k); } else { saved.splice(i, 1); }
+      persist();
+      // Update this one button in place. Re-rendering the whole list would
+      // rebuild every card, throwing the reader back to the top of the page
+      // mid-scroll - so a full render happens only when the saved-only view
+      // means the list itself has to change.
+      if (showSavedOnly) {
+        render();
+      } else {
+        b.setAttribute('aria-pressed', nowSaved ? 'true' : 'false');
+        b.textContent = nowSaved ? '✓ Saved' : 'Save';
+        $('savedBtn').textContent = 'Saved (' + saved.length + ')';
+      }
+    });
+
+    $('savedBtn').addEventListener('click', function () {
+      showSavedOnly = !showSavedOnly; render();
+      $('results').focus();
+    });
+    $('copyBtn').addEventListener('click', copyList);
+    $('resetBtn').addEventListener('click', function () {
+      activeCats = []; showSavedOnly = false;
+      $('q').value = ''; $('town').value = ''; $('when').value = '30';
+      render(); persist();
+    });
+
+    render();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else { init(); }
+})();
+</script>
+</body>
+</html>
