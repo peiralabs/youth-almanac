@@ -373,6 +373,9 @@ footer strong{color:var(--ink)}
       }
       var k = key(e), isSaved = saved.indexOf(k) !== -1;
       var place = [e.v, e.org].filter(Boolean).join(' · ');
+      // esc() stops an attribute breakout but not a javascript: or data: URL,
+      // and this value comes straight from a third-party calendar feed.
+      var url = /^https?:\/\//i.test(e.url || '') ? e.url : '';
       var maps = 'https://www.google.com/maps/search/?api=1&query=' +
                  encodeURIComponent([e.v, e.org, e.town, 'AR'].filter(Boolean).join(', '));
 
@@ -390,7 +393,7 @@ footer strong{color:var(--ink)}
           '<div class="acts">' +
             '<button type="button" class="save" data-k="' + esc(k) + '" aria-pressed="' +
               (isSaved ? 'true' : 'false') + '">' + (isSaved ? '✓ Saved' : 'Save') + '</button>' +
-            (e.url ? '<a href="' + esc(e.url) + '" rel="noopener">Organisation ↗</a>' : '') +
+            (url ? '<a href="' + esc(url) + '" rel="noopener">Organisation ↗</a>' : '') +
             (e.ph ? '<a href="tel:' + esc(e.ph.replace(/[^0-9+]/g, '')) + '">' + esc(e.ph) + '</a>' : '') +
             '<a href="' + esc(maps) + '" rel="noopener">Map ↗</a>' +
           '</div>' +
