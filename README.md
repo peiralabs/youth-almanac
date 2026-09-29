@@ -6,6 +6,13 @@ public library and museums already publish, for ages 6 to 18.
 **Use it now → [peira.dev/tools/youth-almanac](https://peira.dev/tools/youth-almanac/)** ·
 no signup, no tracking, no account.
 
+Want a copy that works on a phone with no signal, in a waiting room, on a plane?
+Download the single file from the
+[latest release](https://github.com/peiralabs/youth-almanac/releases/latest) and open
+it from disk. It keeps working offline — which also means it cannot update itself, so
+come back for a newer one rather than assuming yours is current. Each release ships a
+`SHA256SUMS` if you want to check what you got.
+
 Pick an age and a town. You get the things a child that age is actually eligible
 for, with the time, the place, the age rule the organisation published, and
 whether you need to register first.

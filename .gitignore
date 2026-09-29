@@ -2,3 +2,7 @@ __pycache__/
 *.pyc
 .DS_Store
 .claude/
+
+# build artefacts produced per release, not committed
+dist/SHA256SUMS
+notes.md

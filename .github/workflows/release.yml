@@ -1,0 +1,45 @@
+name: Release
+
+# Publishes the built tool as a downloadable, checksummed artefact.
+#
+# The whole product is one self-contained HTML file, so that file is the
+# release: there is nothing to compile and no dependencies to bundle. It is
+# built from the data committed in build/data rather than a fresh fetch, so a
+# release is reproducible and does not depend on six library calendars being
+# reachable at tag time.
+#
+# Tags are CalVer (vYYYY.MM.DD). The artefact is a dated snapshot of other
+# people's calendars, so the date is the only version number that means
+# anything to someone holding a copy.
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # Never ship data that would not pass the gate.
+      - run: python3 build/validate.py
+      - run: python3 build/make_tool.py
+
+      - name: Checksum the build and write the release notes
+        run: |
+          set -euo pipefail
+          (cd dist && sha256sum *.html > SHA256SUMS && cat SHA256SUMS)
+          python3 build/release_notes.py > notes.md
+          cat notes.md
+
+      - name: Publish the release
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" dist/*.html dist/SHA256SUMS \
+            --title "$GITHUB_REF_NAME" --notes-file notes.md
